@@ -1,4 +1,4 @@
-`export const mockAppointments = [
+export const mockAppointments = [
   {
     id: 1,
     clientName: "Juan dela Cruz",
@@ -121,4 +121,3 @@ export const technicians = [
   "Leonie Latembang",
   "Jeffry Alvarez",
 ];
-`
