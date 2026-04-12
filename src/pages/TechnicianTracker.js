@@ -1,6 +1,4 @@
-// MEMBER ___ - Technician Tracker
-// Props received from App.js: appointments (array)
-//
+
 // WHAT THIS PAGE SHOULD DO:
 // - Show a list of all technicians from the appointments data
 // - For each technician, show:
