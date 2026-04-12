@@ -1,6 +1,4 @@
-// MEMBER ___ - Client History Search
-// Props received from App.js: appointments (array)
-//
+
 // WHAT THIS PAGE SHOULD DO:
 // - Show a search input where you type a client name
 // - Display all appointments that match that client name
