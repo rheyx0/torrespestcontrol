@@ -15,9 +15,14 @@ function ClientHistory({ appointments }) {
 
   // Step 1: Filter appointments where clientName matches the search input
   // Hint: appointments.filter(a => a.clientName.toLowerCase().includes(search.toLowerCase()))
+  const filteredAppointments = appointments.filter(a =>
+    a.clientName.toLowerCase().includes(search.toLowerCase())
+  );
 
   // Step 2: Only show results if search has at least 2 characters
   // Hint: if (search.trim().length < 2) return all or return empty
+  const shouldShowResults = search.trim().length >= 2;
+  const displayAppointments = shouldShowResults ? filteredAppointments : [];
 
   // Step 3: Calculate summary stats for the matched client
   // - Total appointments
