@@ -1,4 +1,5 @@
 
+
 // WHAT THIS PAGE SHOULD DO:
 // - Find all appointments where:
 //     * status is still "Pending" OR "In Progress"
@@ -8,37 +9,53 @@
 // - Allow the user to click Edit to update the appointment
 // - If no overdue appointments, show a success message
 
+
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+
 function OverdueAlerts({ appointments }) {
-  const navigate = useNavigate();
+  // --- HERALD'S LOGIC: FILTERING & MATH ---
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
-  // Step 1: Get today's date
-  // Hint: const today = new Date();
+  const overdueAppointments = appointments.reduce((acc, app) => {
+    const appDate = new Date(app.date);
+    appDate.setHours(0, 0, 0, 0);
 
-  // Step 2: Filter appointments that are overdue
-  // Hint: status is Pending or In Progress AND date < today
+    const isUnresolved = app.status === "Pending" || app.status === "In Progress";
+    const isPastDue = appDate < today;
 
-  // Step 3: Calculate how many days overdue each appointment is
-  // Hint: const diff = Math.floor((today - new Date(a.date)) / (1000 * 60 * 60 * 24));
+    if (isUnresolved && isPastDue) {
+      const diffTime = today - appDate;
+      const daysOverdue = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      acc.push({ ...app, daysOverdue });
+    }
+    
+    return acc;
+  }, []); 
 
-  // Step 4: Return JSX showing overdue appointments as warning cards
-
+  // Passing the filtered data to the UI layer
   return (
     <div className="list-page">
       <div className="list-header">
-        <div>
-          <h1 className="page-title">Overdue Alerts</h1>
-          <p style={{ fontSize: "13px", color: "var(--muted-foreground)", marginTop: "4px" }}>
-            Appointments that are past their scheduled date
-          </p>
-        </div>
+        <h1 className="page-title">Overdue Alerts</h1>
       </div>
-
-      {/* YOUR CODE GOES HERE */}
-      {/* Show warning cards for each overdue appointment */}
-      {/* Each card should show: client name, service, days overdue, and an Edit button */}
+      
+      {/* Simple raw output to verify the logic works */}
+      <div style={{ marginTop: "20px", padding: "10px", background: "#f9fafb" }}>
+        {overdueAppointments.length === 0 ? (
+          <p>No overdue appointments right now.</p>
+        ) : (
+          <ul>
+            {overdueAppointments.map(app => (
+              <li key={app.id} style={{ marginBottom: "8px" }}>
+                <strong>{app.clientName}</strong> is {app.daysOverdue} days overdue.
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
 
     </div>
   );
