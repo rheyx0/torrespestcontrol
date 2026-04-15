@@ -198,6 +198,33 @@ function TechnicianTracker({ appointments }) {
             <option value="alphabetical">Alphabetical</option>
           </select>
         </div>
+
+        {/* Clear Filters Button */}
+        <div style={{ display: "flex", alignItems: "flex-end" }}>
+          <button
+            onClick={() => {
+              setSearchTerm("");
+              setStartDate("");
+              setEndDate("");
+              setSortBy("most-appointments");
+              setSelectedTech(null);
+            }}
+            style={{
+              padding: "8px 16px",
+              backgroundColor: "#64748b",
+              color: "white",
+              border: "none",
+              borderRadius: "4px",
+              cursor: "pointer",
+              fontWeight: 600,
+              fontSize: "14px",
+              height: "38px",
+              width: "100%"
+            }}
+          >
+            Clear Filters
+          </button>
+        </div>
       </div>
 
       {/* TECHNICIAN CARDS */}
