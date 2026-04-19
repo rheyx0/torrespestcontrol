@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 function OverdueAlerts({ appointments }) {
+  const [sortBy, setSortBy] = useState("daysOverdueDesc");
   // --- HERALD'S LOGIC: FILTERING & MATH ---
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -21,7 +22,25 @@ function OverdueAlerts({ appointments }) {
     
     return acc;
   }, []); 
-
+    
+  const sortedAppointments = [...overdueAppointments].sort((a, b) => {
+    switch (sortBy) {
+      case "daysOverdueDesc":
+        return b.daysOverdue - a.daysOverdue;
+      case "daysOverdueAsc":
+        return a.daysOverdue - b.daysOverdue;
+      case "clientNameAsc":
+        return a.clientName.localeCompare(b.clientName);
+      case "clientNameDesc":
+        return b.clientName.localeCompare(a.clientName);
+      case "dateOldest":
+        return new Date(a.date) - new Date(b.date);
+      case "dateNewest":
+        return new Date(b.date) - new Date(a.date);
+      default:
+        return 0;
+      }
+      }); 
   // --- CABALLERO'S LOGIC: UI RENDER ---
   return (
     <div className="list-page">
