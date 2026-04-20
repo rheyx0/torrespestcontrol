@@ -8,13 +8,26 @@ import CreateAppointment from "./pages/CreateAppointment";
 import EditAppointment from "./pages/EditAppointment";
 import AppointmentDetail from "./pages/AppointmentDetail";
 import TechnicianTracker from "./pages/TechnicianTracker";
+// COMMENT THIS OUT if the file doesn't exist yet to prevent "Module not found" error:
+// import TechnicianManagement from "./pages/TechnicianManagement"; 
 import OverdueAlerts from "./pages/OverdueAlerts";
 import ClientHistory from "./pages/ClientHistory";
-import { mockAppointments } from "./data/mockData";
+// FIXED: Removed the stray 'w' at the end of the next line
+import { mockAppointments, technicians as initialTechs } from "./data/mockData";
 
 function App() {
-  const [appointments, setAppointments] = useState(mockAppointments);
+  // Initialize state with LocalStorage check
+  const [appointments, setAppointments] = useState(() => {
+    const savedAppts = localStorage.getItem("appointments");
+    return savedAppts ? JSON.parse(savedAppts) : mockAppointments;
+  });
 
+  const [technicians, setTechnicians] = useState(() => {
+    const savedTechs = localStorage.getItem("technicians");
+    return savedTechs ? JSON.parse(savedTechs) : initialTechs;
+  });
+
+  // ── Appointment functions ──
   const addAppointment = (newAppointment) => {
     const withId = { ...newAppointment, id: Date.now() };
     const updated = [...appointments, withId];
@@ -36,7 +49,34 @@ function App() {
     localStorage.setItem("appointments", JSON.stringify(updated));
   };
 
-  // Calculate follow-up count here so Header can use it
+  // ── Technician functions ──
+  const addTechnician = (name) => {
+    if (name.trim() && !technicians.includes(name)) {
+      const updated = [...technicians, name];
+      setTechnicians(updated);
+      localStorage.setItem("technicians", JSON.stringify(updated));
+    }
+  };
+
+  const updateTechnician = (oldName, newName) => {
+    const updatedTechs = technicians.map(t => t === oldName ? newName : t);
+    setTechnicians(updatedTechs);
+    localStorage.setItem("technicians", JSON.stringify(updatedTechs));
+
+    const updatedAppts = appointments.map(a =>
+      a.technician === oldName ? { ...a, technician: newName } : a
+    );
+    setAppointments(updatedAppts);
+    localStorage.setItem("appointments", JSON.stringify(updatedAppts));
+  };
+
+  const deleteTechnician = (name) => {
+    const updated = technicians.filter(t => t !== name);
+    setTechnicians(updated);
+    localStorage.setItem("technicians", JSON.stringify(updated));
+  };
+
+  // ── Follow-up logic ──
   const followUpCount = appointments.filter(a => {
     if (a.status !== "Completed") return false;
     const diff = (new Date() - new Date(a.date)) / (1000 * 60 * 60 * 24);
@@ -45,18 +85,30 @@ function App() {
 
   return (
     <Router>
-      <div style={{ display: "flex", minHeight: "100vh", width: "100%" }}>
+      <div className="app-shell">
         <Sidebar />
         <div className="page-wrapper">
           <Header followUpCount={followUpCount} />
           <Routes>
             <Route path="/" element={<Dashboard appointments={appointments} />} />
             <Route path="/appointments" element={<AppointmentList appointments={appointments} onDelete={deleteAppointment} />} />
-            <Route path="/appointments/create" element={<CreateAppointment onAdd={addAppointment} />} />
-            <Route path="/appointments/edit/:id" element={<EditAppointment appointments={appointments} onUpdate={updateAppointment} />} />
+            <Route path="/appointments/create" element={<CreateAppointment onAdd={addAppointment} technicians={technicians} />} />
+            <Route path="/appointments/edit/:id" element={<EditAppointment appointments={appointments} onUpdate={updateAppointment} technicians={technicians} />} />
             <Route path="/appointments/:id" element={<AppointmentDetail appointments={appointments} />} />
-            <Route path="/technicians" element={<TechnicianTracker appointments={appointments} />} />
-            <Route path="/overdue" element={<OverdueAlerts appointments={appointments} />} />
+            <Route path="/technicians" element={<TechnicianTracker appointments={appointments} technicians={technicians} />} />
+            
+            {/* Keeping this commented out as you requested since the component isn't ready */}
+            {/* <Route path="/technicians/manage" element={
+              <TechnicianManagement
+                techs={technicians}
+                onAdd={addTechnician}
+                onUpdate={updateTechnician}
+                onDelete={deleteTechnician}
+              />
+            } /> */}
+
+            {/* Added onDelete={deleteAppointment} here so the button on that page doesn't crash */}
+            <Route path="/overdue" element={<OverdueAlerts appointments={appointments} deleteAppointment={deleteAppointment} />} />
             <Route path="/client-history" element={<ClientHistory appointments={appointments} />} />
           </Routes>
         </div>
