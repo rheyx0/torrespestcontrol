@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 function OverdueAlerts({ appointments }) {
+  const navigate = useNavigate();
   const [sortBy, setSortBy] = useState("daysOverdueDesc");
   // --- HERALD'S LOGIC: FILTERING & MATH ---
   const today = new Date();
@@ -71,7 +72,20 @@ function OverdueAlerts({ appointments }) {
                     {app.serviceType || app.pestType} | {app.status}
                   </p>
                 </div>
-                {/* ACTION BUTTONS GO HERE */}
+                {/* DE LEON'S LOGIC: ROUTING & ACTIONS */}    
+                  <div className="record-actions">
+                    <button
+                      className="action-btn action-btn-edit"
+                      onClick={() => navigate(`/appointments/edit/${app.id}`)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="action-btn action-btn-delete"
+                      onClick={() => onDelete(app.id)}
+                    >
+                      Delete
+                    </button>
               </div>
             ))}
           </div>
