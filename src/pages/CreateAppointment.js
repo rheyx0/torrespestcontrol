@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { clientTypes, pestTypes, statusOptions, technicians } from "../data/mockData";
 
-function CreateAppointment({ onAdd }) {
+function CreateAppointment({ onAdd, technicians }) {
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
