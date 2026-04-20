@@ -73,20 +73,6 @@ function OverdueAlerts({ appointments }) {
                   </p>
                 </div>
                 {/* DE LEON'S LOGIC: ROUTING & ACTIONS */}    
-                  <div className="record-actions">
-                    <button
-                      className="action-btn action-btn-edit"
-                      onClick={() => navigate(`/appointments/edit/${app.id}`)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="action-btn action-btn-delete"
-                      onClick={() => onDelete(app.id)}
-                    >
-                      Delete
-                    </button>
-                  </div>
               </div>
             ))}
           </div>
