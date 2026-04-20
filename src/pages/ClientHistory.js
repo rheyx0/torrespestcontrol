@@ -33,7 +33,7 @@ function ClientHistory({ appointments }) {
  
   const serviceCount = {};
   displayAppointments.forEach(a => {
-    const s = a.pestType || a.serviceType || "Other";
+    const s = a.pestType || "Other";
     serviceCount[s] = (serviceCount[s] || 0) + 1;
   });
   const mostCommonService = Object.entries(serviceCount).sort((a, b) => b[1] - a[1])[0]?.[0] || "—";
