@@ -95,6 +95,7 @@ function App() {
             <Route path="/appointments/create" element={<CreateAppointment onAdd={addAppointment} technicians={technicians} />} />
             <Route path="/appointments/edit/:id" element={<EditAppointment appointments={appointments} onUpdate={updateAppointment} technicians={technicians} />} />
             <Route path="/appointments/:id" element={<AppointmentDetail appointments={appointments} />} />
+            <Route path="/overdue" element={<OverdueAlerts appointments={appointments} onDelete={deleteAppointment} />} />
             <Route path="/technicians" element={<TechnicianTracker appointments={appointments} technicians={technicians} />} />
             
             {/* Keeping this commented out as you requested since the component isn't ready */}
