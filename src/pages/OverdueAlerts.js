@@ -86,6 +86,7 @@ function OverdueAlerts({ appointments }) {
                     >
                       Delete
                     </button>
+                  </div>
               </div>
             ))}
           </div>
