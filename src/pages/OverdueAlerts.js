@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function OverdueAlerts({ appointments }) {
+function OverdueAlerts({ appointments, onDelete }) {
   const navigate = useNavigate();
   const [sortBy, setSortBy] = useState("daysOverdueDesc");
   // --- HERALD'S LOGIC: FILTERING & MATH ---
