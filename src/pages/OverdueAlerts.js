@@ -109,7 +109,7 @@ function OverdueAlerts({ appointments, onDelete }) {
                   <div className="record-actions">
                     <button
                       className="action-btn action-btn-edit"
-                      onClick={() => navigate(/appointments/edit/${app.id}')}
+                      onClick={() => navigate(`/appointments/edit/${app.id}`)}
                     >
                       Edit
                     </button>
