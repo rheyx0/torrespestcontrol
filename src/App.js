@@ -8,8 +8,7 @@ import CreateAppointment from "./pages/CreateAppointment";
 import EditAppointment from "./pages/EditAppointment";
 import AppointmentDetail from "./pages/AppointmentDetail";
 import TechnicianTracker from "./pages/TechnicianTracker";
-// COMMENT THIS OUT if the file doesn't exist yet to prevent "Module not found" error:
-// import TechnicianManagement from "./pages/TechnicianManagement"; 
+import TechnicianManagement from "./pages/TechnicianManagement"; 
 import OverdueAlerts from "./pages/OverdueAlerts";
 import ClientHistory from "./pages/ClientHistory";
 // FIXED: Removed the stray 'w' at the end of the next line
@@ -98,15 +97,14 @@ function App() {
             <Route path="/overdue" element={<OverdueAlerts appointments={appointments} onDelete={deleteAppointment} />} />
             <Route path="/technicians" element={<TechnicianTracker appointments={appointments} technicians={technicians} />} />
             
-            {/* Keeping this commented out as you requested since the component isn't ready */}
-            {/* <Route path="/technicians/manage" element={
+             <Route path="/technicians/manage" element={
               <TechnicianManagement
                 techs={technicians}
                 onAdd={addTechnician}
                 onUpdate={updateTechnician}
                 onDelete={deleteTechnician}
               />
-            } /> */}
+            } /> 
 
             {/* Added onDelete={deleteAppointment} here so the button on that page doesn't crash */}
             <Route path="/overdue" element={<OverdueAlerts appointments={appointments} deleteAppointment={deleteAppointment} />} />
