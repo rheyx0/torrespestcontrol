@@ -106,8 +106,6 @@ function App() {
               />
             } /> 
 
-            {/* Added onDelete={deleteAppointment} here so the button on that page doesn't crash */}
-            <Route path="/overdue" element={<OverdueAlerts appointments={appointments} deleteAppointment={deleteAppointment} />} />
             <Route path="/client-history" element={<ClientHistory appointments={appointments} />} />
           </Routes>
         </div>
